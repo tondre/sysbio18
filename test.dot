@@ -1,0 +1,23 @@
+digraph "" {
+	node [fillcolor="#FFFFFF",
+		fixedsize=true,
+		fontcolor="#000000",
+		label="\N",
+		shape=circle,
+		style=filled
+	];
+	TOM1	 [label=TOM1,
+		width=0.6];
+	T0	 [fillcolor="#D1D1D1",
+		label=T0,
+		shape=square,
+		width=0.3];
+	TOM1 -> T0;
+	A_c	 [label=A_c,
+		width=0.44999999999999996];
+	A_c -> T0;
+	A_m	 [label=A_m,
+		width=0.44999999999999996];
+	T0 -> TOM1;
+	T0 -> A_m;
+}

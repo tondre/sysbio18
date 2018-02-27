@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v2.9.4 with libSBML version 5.15.0. -->
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model id="__main" name="__main">
+    <listOfUnitDefinitions>
+      <unitDefinition id="alienliter">
+        <listOfUnits>
+          <unit kind="litre" exponent="1" scale="-1" multiplier="1.23"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="fL">
+        <listOfUnits>
+          <unit kind="litre" exponent="1" scale="-15" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment id="cell" spatialDimensions="3" size="100" constant="true"/>
+      <compartment id="mitochondria" spatialDimensions="3" size="10" units="fL" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="TOM1" compartment="cell" initialConcentration="10" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="A_c" compartment="cell" initialConcentration="100" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="A_m" compartment="mitochondria" initialConcentration="1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="kineticLaw" constant="false"/>
+      <parameter id="k1" value="0.01" constant="false"/>
+    </listOfParameters>
+    <listOfRules>
+      <assignmentRule variable="kineticLaw">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> k1 </ci>
+            <ci> TOM1 </ci>
+            <apply>
+              <minus/>
+              <ci> A_c </ci>
+              <apply>
+                <plus/>
+                <ci> A_m </ci>
+                <cn> 0.01 </cn>
+              </apply>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+    </listOfRules>
+    <listOfReactions>
+      <reaction id="T0" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="A_c" stoichiometry="1" constant="true"/>
+          <speciesReference species="TOM1" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="A_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="TOM1" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> kineticLaw </ci>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+    <listOfEvents>
+      <event id="E1" useValuesFromTriggerTime="true">
+        <trigger initialValue="true" persistent="true">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <lt/>
+              <ci> A_c </ci>
+              <cn type="integer"> 50 </cn>
+            </apply>
+          </math>
+        </trigger>
+        <listOfEventAssignments>
+          <eventAssignment variable="k1">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <cn type="integer"> 0 </cn>
+            </math>
+          </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+      <event id="E2" useValuesFromTriggerTime="true">
+        <trigger initialValue="true" persistent="true">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <gt/>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              <cn type="integer"> 300 </cn>
+            </apply>
+          </math>
+        </trigger>
+        <listOfEventAssignments>
+          <eventAssignment variable="A_c">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <cn type="integer"> 120 </cn>
+            </math>
+          </eventAssignment>
+          <eventAssignment variable="TOM1">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <cn type="integer"> 20 </cn>
+            </math>
+          </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+    </listOfEvents>
+  </model>
+</sbml>
